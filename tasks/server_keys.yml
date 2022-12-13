@@ -154,7 +154,7 @@
 - name: Install crl-cron script
   template:
     src: crl-cron.sh.j2
-    dest: "{{ openvpn_base_dir }}/crl-cron_{{ openvpn_config_file }}.sh"
+    dest: "{{ openvpn_key_dir }}/crl-cron.sh"
     owner: root
     group: root
     mode: 0744
@@ -178,7 +178,7 @@
   ansible.builtin.cron:
     name: "check if CRL will expire soon for {{ openvpn_config_file }}"
     special_time: weekly
-    job: "sh {{ openvpn_base_dir }}/crl-cron_{{ openvpn_config_file }}.sh"
+    job: "sh {{ openvpn_key_dir }}/crl-cron.sh"
     cron_file: /etc/cron.d/openvpn-crl_{{ openvpn_config_file }}
     user: root
   when: not ci_build
